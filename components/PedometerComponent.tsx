@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Pedometer } from "expo-sensors";
 
-export default function StepCounter() {
+export default function PedometerComponent() {
     const [isAvailable, setIsAvailable] = useState(false);
     const [steps, setSteps] = useState(0);
 
