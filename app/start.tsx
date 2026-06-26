@@ -1,14 +1,16 @@
 import {StyleSheet, Text, View} from 'react-native';
 import {useState} from 'react';
+import Height from "@/app/service/height";
 
 export default function StartScreen() {
   const [steps, setSteps] = useState(0);
-  const [height, setHeight] = useState(0);
+  const [maxHeight, setMaxHeight] = useState(0);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>START</Text>
       <Text>{steps}</Text>
-      <Text>{height}</Text>
+      <Text>{maxHeight}</Text>
+      <Height></Height>
     </View>
   );
 }

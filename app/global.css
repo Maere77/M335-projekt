@@ -1,0 +1,30 @@
+:root {
+  --app-bg: #f5f7ff;
+  --surface-bg: #ffffff;
+  --text-main: #101322;
+  --text-muted: #5d637a;
+  --accent: #4f46e5;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  background: var(--app-bg);
+  color: var(--text-main);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(0.95);
+}
