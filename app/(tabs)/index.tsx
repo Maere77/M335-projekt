@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import {sendNotification} from "@/service/PushService";
+import {sendNotification} from "@/app/service/PushService";
 import {useEffect} from "react";
 import * as Notifications from 'expo-notifications';
 
