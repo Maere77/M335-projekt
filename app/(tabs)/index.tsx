@@ -17,17 +17,12 @@ export default function HomeScreen() {
           <View style={styles.actions}>
             <AppButton title="Start" onPress={() => router.push('/start')} style={styles.primaryButton} />
             <AppButton
-              title="Send Notification"
+              title="Notify to Start Challange"
               variant="secondary"
-              onPress={() => triggerAdvancedNotification('Test Title', 'Test Body')}
+              onPress={() => triggerAdvancedNotification('Game Starting', '10 Seconds')}
               style={styles.secondaryButton}
             />
           </View>
-        </AppCard>
-
-        <AppCard>
-          <AppSectionTitle title="Pedometer" subtitle="Live step counter" />
-          <PedometerComponent />
         </AppCard>
       </ScrollView>
     </AppScreen>

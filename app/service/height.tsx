@@ -5,6 +5,7 @@ import { Barometer } from 'expo-sensors';
 import { useAppTheme } from '@/components/ui/app-shell';
 
 export default function Height() {
+    //Das ist das Code Beispiel, dass Markus mit Livio gemacht hat.
     const colors = useAppTheme();
     const [{ pressure, relativeAltitude }, setData] = useState({ pressure: 0, relativeAltitude: 0 });
 

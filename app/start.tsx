@@ -3,7 +3,8 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 
 import Height from '@/app/service/height';
-import { AppButton, AppCard, AppScreen, AppStat, useAppTheme } from '@/components/ui/app-shell';
+import {AppButton, AppCard, AppScreen, AppSectionTitle, AppStat, useAppTheme} from '@/components/ui/app-shell';
+import PedometerComponent from "@/components/PedometerComponent";
 
 export default function StartScreen() {
     const colors = useAppTheme();
@@ -14,10 +15,13 @@ export default function StartScreen() {
         <AppScreen>
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
                 <AppCard style={styles.hero}>
-                    <Text style={[styles.kicker, { color: colors.primary }]}>Kickoff</Text>
                     <Text style={[styles.title, { color: colors.text }]}>START</Text>
                     <Text style={[styles.text, { color: colors.muted }]}>You Think your at the PEAK?</Text>
                     <AppButton title="Start" onPress={() => router.push('/maxHeight')} />
+                </AppCard>
+
+                <AppCard>
+                    <PedometerComponent />
                 </AppCard>
 
                 <View style={styles.statsRow}>

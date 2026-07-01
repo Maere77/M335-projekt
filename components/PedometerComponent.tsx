@@ -14,15 +14,8 @@ export default function PedometerComponent() {
 
         const start = async () => {
             //AI damit es auch für Android funktioniert
-            const available = await Pedometer.isAvailableAsync();
-            setIsAvailable(available);
-            console.log("Available:", available);
-
             const permission = await Pedometer.requestPermissionsAsync();
-            console.log("Permission:", permission);
-            if (!available) return;
 
-            // Schritte seit Start der Komponente
             subscription = Pedometer.watchStepCount(result => {
                 setSteps(result.steps);
             });
@@ -37,15 +30,9 @@ export default function PedometerComponent() {
 
     return (
         <View style={styles.container}>
-            <Text style={[styles.title, { color: colors.muted }]}>Schrittzähler</Text>
+            <Text style={[styles.title, { color: colors.muted }]}>Steps Counter</Text>
 
             <Text style={[styles.steps, { color: colors.text }]}>{steps.toLocaleString()}</Text>
-
-            <Text style={[styles.label, { color: colors.muted }]}>
-                {isAvailable
-                    ? "Schritte seit App-Start"
-                    : "Pedometer nicht verfügbar"}
-            </Text>
         </View>
     );
 }
