@@ -1,9 +1,11 @@
 import {ScrollView, StyleSheet, Text} from 'react-native';
 
-import Height from '@/service/height';
+import Height from '@/components/Height';
 import {AppCard, AppScreen, useAppTheme} from '@/components/ui/app-shell';
 import PedometerComponent from "@/components/PedometerComponent";
 import ExpoLocation from "@/components/ExpoLocation";
+import StationaryTime from "@/components/StationaryTime";
+import ExpoAccelerometer from "@/components/ExpoAccelerometer";
 
 export default function StartScreen() {
     const colors = useAppTheme();
@@ -23,6 +25,9 @@ export default function StartScreen() {
                 </AppCard>
                 <AppCard>
                     <Height />
+                </AppCard>
+                <AppCard>
+                    <ExpoAccelerometer />
                 </AppCard>
             </ScrollView>
         </AppScreen>

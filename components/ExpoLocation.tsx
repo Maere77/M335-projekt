@@ -4,7 +4,8 @@ import * as Location from "expo-location";
 
 import {useAppTheme} from "@/components/ui/app-shell";
 
-//Logik komplett generiert, ich kenne Arkustangens nicht
+const MOVEMENT_TOLERANCE_M = 3;
+
 function getDistance(
     a: { latitude: number; longitude: number },
     b: { latitude: number; longitude: number }
@@ -49,7 +50,10 @@ export default function ExpoLocation() {
                 },
                 ({coords}) => {
                     if (lastLocation !== null) {
-                        setDistance((d) => d + getDistance(lastLocation as Location.LocationObjectCoords, coords));
+                        const delta = getDistance(lastLocation as Location.LocationObjectCoords, coords);
+                        if (delta > MOVEMENT_TOLERANCE_M) {
+                            setDistance((d) => d + delta);
+                        }
                     }
                     lastLocation = coords;
                 }
@@ -61,7 +65,7 @@ export default function ExpoLocation() {
 
     return (
         <View style={styles.container}>
-            <Text style={[styles.text, {color: colors.muted}]}>
+            <Text style={[styles.label, {color: colors.muted}]}>
                 Distance travelled
             </Text>
             <Text style={[styles.value, {color: colors.text}]}>
@@ -73,6 +77,6 @@ export default function ExpoLocation() {
 
 const styles = StyleSheet.create({
     container: {gap: 8},
-    text: {fontSize: 16, lineHeight: 24},
-    value: {fontSize: 24, fontWeight: "800", lineHeight: 30},
+    label: {fontSize: 14, lineHeight: 20, fontWeight: "600", textTransform: "uppercase", letterSpacing: 0.8},
+    value: {fontSize: 28, fontWeight: "800", lineHeight: 32},
 });

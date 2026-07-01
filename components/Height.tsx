@@ -44,7 +44,7 @@ export default function Height() {
     useEffect(() => {
         const { elevationGain: nextElevationGain } = highTracker.update(relativeAltitude);
         setElevationGain(nextElevationGain);
-    }, [relativeAltitude]);
+    }, [highTracker, relativeAltitude]);
 
     useEffect(() => {
         if (relativeAltitude === null) {
