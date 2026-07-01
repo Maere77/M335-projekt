@@ -1,15 +1,13 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import {ScrollView, StyleSheet, Text} from 'react-native';
 
-import { useRouter } from 'expo-router';
+import {useRouter} from 'expo-router';
 
 import Height from '@/service/height';
-import {AppButton, AppCard, AppScreen, AppSectionTitle, AppStat, useAppTheme} from '@/components/ui/app-shell';
+import {AppButton, AppCard, AppScreen, useAppTheme} from '@/components/ui/app-shell';
 import PedometerComponent from "@/components/PedometerComponent";
 
 export default function StartScreen() {
     const colors = useAppTheme();
-    const steps = 0;
-    const maxHeight = 0;
     const router = useRouter();
     return (
         <AppScreen>
@@ -23,12 +21,6 @@ export default function StartScreen() {
                 <AppCard>
                     <PedometerComponent />
                 </AppCard>
-
-                <View style={styles.statsRow}>
-                    <AppStat label="Steps" value={String(steps)} />
-                    <AppStat label="Max height" value={String(maxHeight)} />
-                </View>
-
                 <AppCard>
                     <Height />
                 </AppCard>
@@ -60,9 +52,5 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         lineHeight: 24,
-    },
-    statsRow: {
-        flexDirection: 'row',
-        gap: 12,
     },
 });
