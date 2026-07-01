@@ -1,5 +1,5 @@
 import {useRouter} from 'expo-router';
-import {Alert, Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 
 import {triggerAdvancedNotification} from '@/service/PushService';
 import {AppButton, AppCard, AppScreen, useAppTheme} from '@/components/ui/app-shell';
@@ -37,32 +37,6 @@ export default function HomeScreen() {
         save();
     }, [gameData, save]);
 
-    const editUsername = () => {
-        Alert.prompt(
-            "Username ändern",
-            "Gib einen neuen Username ein",
-            [
-                {
-                    text: "Abbrechen",
-                    style: "cancel",
-                },
-                {
-                    text: "Speichern",
-                    onPress: (value?: string) => {
-                        if (!value?.trim()) return;
-
-                        setGameData((prev) => ({
-                            ...prev,
-                            username: value.trim(),
-                        }));
-                    },
-                },
-            ],
-            "plain-text",
-            gameData.username
-        );
-    };
-
 
     return (
         <AppScreen>
@@ -78,17 +52,29 @@ export default function HomeScreen() {
                             onPress={() => triggerAdvancedNotification('Game Starting', '10 Seconds')}
                             style={styles.secondaryButton}
                         />
-                        <Pressable
-                            style={styles.usernameCard}
-                            onPress={editUsername}
-                        >
-                            <Text style={[styles.usernameLabel, {color: colors.muted}]}>
+                        <View style={styles.usernameCard}>
+                            <Text style={[styles.usernameLabel, { color: colors.muted }]}>
                                 Username
                             </Text>
-                            <Text style={[styles.username, {color: colors.text}]}>
-                                {gameData.username}
-                            </Text>
-                        </Pressable>
+
+                            <TextInput
+                                value={gameData.username}
+                                onChangeText={(text) =>
+                                    setGameData((prev) => ({
+                                        ...prev,
+                                        username: text,
+                                    }))
+                                }
+                                placeholder="Username"
+                                style={[
+                                    styles.usernameInput,
+                                    {
+                                        color: colors.text,
+                                        borderColor: colors.muted,
+                                    },
+                                ]}
+                            />
+                        </View>
                     </View>
                 </AppCard>
             </ScrollView>
@@ -142,6 +128,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#ccc",
         marginTop: 8,
+        width: "100%"
     },
 
     usernameLabel: {
@@ -149,8 +136,11 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
 
-    username: {
-        fontSize: 18,
-        fontWeight: "600",
+    usernameInput: {
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingHorizontal: 12,
+        paddingVertical: 10,
+        fontSize: 16,
     },
 });
