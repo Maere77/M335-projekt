@@ -1,10 +1,11 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {getAuth, signInAnonymously} from "firebase/auth";
-import {GameData, saveGameData} from "@/service/gameDataService";
+import {saveUser, UserData,} from "@/service/gameDataService";
 
 type GameDataContextType = {
-    gameData: GameData;
-    setGameData: React.Dispatch<React.SetStateAction<GameData>>;
+    gameData: UserData;
+    setGameData: React.Dispatch<React.SetStateAction<UserData>>;
+    gameId: string;
+    setGameId: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const GameDataContext = createContext<GameDataContextType | null>(null);
@@ -14,32 +15,30 @@ export function GameDataProvider({
                                  }: {
     children: React.ReactNode;
 }) {
-    const [gameData, setGameData] = useState<GameData>({
-        steps: 0,
+    const [gameId, setGameId] = useState("");
+
+    const [gameData, setGameData] = useState<UserData>({
+        userid: "",
         username: "anonymous-user",
-        updatedAt: undefined,
+        steps: 0,
     });
 
+// Erst speichern, wenn es eine gameId gibt
     useEffect(() => {
-        async function save() {
-            const auth = getAuth();
+        if (!gameId || !gameData.userid) return;
 
-            if (!auth.currentUser) {
-                await signInAnonymously(auth);
-            }
-
-            const uid = auth.currentUser?.uid;
-
-            if (uid) {
-                await saveGameData(uid, gameData);
-            }
-        }
-
-        save();
-    }, [gameData]);
+        saveUser(gameId, gameData);
+    }, [gameData, gameId]);
 
     return (
-        <GameDataContext.Provider value={{gameData, setGameData}}>
+        <GameDataContext.Provider
+            value={{
+                gameData,
+                setGameData,
+                gameId,
+                setGameId,
+            }}
+        >
             {children}
         </GameDataContext.Provider>
     );
