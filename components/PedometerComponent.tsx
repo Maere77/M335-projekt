@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Pedometer } from "expo-sensors";
+import {useEffect} from "react";
+import {StyleSheet, Text, View} from "react-native";
+import {Pedometer} from "expo-sensors";
 
-import { useAppTheme } from '@/components/ui/app-shell';
+import {useAppTheme} from '@/components/ui/app-shell';
+import {useGameData} from "@/context/GameDataContext";
 
 export default function PedometerComponent() {
     const colors = useAppTheme();
-    const [isAvailable, setIsAvailable] = useState(false);
-    const [steps, setSteps] = useState(0);
+
+    const {gameData, setGameData} = useGameData();
 
     useEffect(() => {
         let subscription: Pedometer.Subscription | null = null;
@@ -17,7 +18,10 @@ export default function PedometerComponent() {
             const permission = await Pedometer.requestPermissionsAsync();
 
             subscription = Pedometer.watchStepCount(result => {
-                setSteps(result.steps);
+                setGameData(prev => ({
+                    ...prev,
+                    steps: result.steps,
+                }));
             });
         };
 
@@ -30,9 +34,8 @@ export default function PedometerComponent() {
 
     return (
         <View style={styles.container}>
-            <Text style={[styles.title, { color: colors.muted }]}>Steps Counter</Text>
-
-            <Text style={[styles.steps, { color: colors.text }]}>{steps.toLocaleString()}</Text>
+            <Text style={[styles.title, {color: colors.muted}]}>Steps Counter</Text>
+            <Text style={[styles.steps, {color: colors.text}]}>{gameData.steps.toLocaleString()}</Text>
         </View>
     );
 }

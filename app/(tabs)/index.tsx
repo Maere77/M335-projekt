@@ -3,19 +3,16 @@ import {ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 
 import {triggerAdvancedNotification} from '@/service/PushService';
 import {AppButton, AppCard, AppScreen, useAppTheme} from '@/components/ui/app-shell';
-import {GameData, saveGameData} from "@/service/gameDataService";
+import {saveGameData} from "@/service/gameDataService";
 import {getAuth, signInAnonymously} from "firebase/auth";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
+import {useGameData} from "@/context/GameDataContext";
 
 export default function HomeScreen() {
     const colors = useAppTheme();
     const router = useRouter();
 
-
-    const [gameData, setGameData] = useState<GameData>({
-        steps: 0, updatedAt: undefined, username: "anonymous-user"
-    });
-
+    const {gameData, setGameData} = useGameData();
 
     //todo: initial daten laden falls schon eintrag für user online ist
 
@@ -53,7 +50,7 @@ export default function HomeScreen() {
                             style={styles.secondaryButton}
                         />
                         <View style={styles.usernameCard}>
-                            <Text style={[styles.usernameLabel, { color: colors.muted }]}>
+                            <Text style={[styles.usernameLabel, {color: colors.muted}]}>
                                 Username
                             </Text>
 
