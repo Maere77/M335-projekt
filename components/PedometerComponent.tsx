@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {Platform, StyleSheet, Text, View} from "react-native";
 import {Pedometer} from "expo-sensors";
 
 import {useAppTheme} from '@/components/ui/app-shell';
@@ -35,6 +35,9 @@ export default function PedometerComponent() {
     return (
         <View style={styles.container}>
             <Text style={[styles.title, {color: colors.muted}]}>Steps Counter</Text>
+            {Platform.OS === 'android' ? (
+                <Text style={[styles.label, {color: colors.muted}]}>Step counter only works on iOS, not on Android.</Text>
+            ) : null}
             <Text style={[styles.steps, {color: colors.text}]}>{gameData.steps.toLocaleString()}</Text>
         </View>
     );
