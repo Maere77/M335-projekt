@@ -2,7 +2,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useRouter } from 'expo-router';
 
-import Height from '@/app/service/height';
+import Height from '@/service/height';
 import {AppButton, AppCard, AppScreen, AppSectionTitle, AppStat, useAppTheme} from '@/components/ui/app-shell';
 import PedometerComponent from "@/components/PedometerComponent";
 

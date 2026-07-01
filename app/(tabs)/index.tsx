@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { triggerAdvancedNotification } from '@/app/service/PushService';
+import { triggerAdvancedNotification } from '@/service/PushService';
 import PedometerComponent from '@/components/PedometerComponent';
 import { AppButton, AppCard, AppScreen, AppSectionTitle, AppStat, useAppTheme } from '@/components/ui/app-shell';
 
