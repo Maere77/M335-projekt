@@ -1,36 +1,77 @@
-import {useRouter} from 'expo-router';
-import {Button, StyleSheet, Text, View} from 'react-native';
-import {registerForPushNotificationsAsync, triggerAdvancedNotification} from "@/app/service/PushService";
-import {useEffect} from "react";
-import PedometerComponent from "@/components/PedometerComponent";
+import { useRouter } from 'expo-router';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { triggerAdvancedNotification } from '@/app/service/PushService';
+import PedometerComponent from '@/components/PedometerComponent';
+import { AppButton, AppCard, AppScreen, AppSectionTitle, AppStat, useAppTheme } from '@/components/ui/app-shell';
 
 export default function HomeScreen() {
+  const colors = useAppTheme();
   const router = useRouter();
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Titel</Text>
-      <Text style={styles.text}>Erklärung</Text>
-      <Button title="Start" onPress={() => router.push('/start')} />
-      <Button title="Send Notification" onPress={() => triggerAdvancedNotification('Test Title', 'Test Body')} />
-      <PedometerComponent />
-    </View>
+    <AppScreen>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <AppCard style={styles.hero}>
+          <Text style={[styles.title, { color: colors.text }]}>Thirty dash</Text>
+          <Text style={[styles.text, { color: colors.muted }]}>Erklärung</Text>
+          <View style={styles.actions}>
+            <AppButton title="Start" onPress={() => router.push('/start')} style={styles.primaryButton} />
+            <AppButton
+              title="Send Notification"
+              variant="secondary"
+              onPress={() => triggerAdvancedNotification('Test Title', 'Test Body')}
+              style={styles.secondaryButton}
+            />
+          </View>
+        </AppCard>
+
+        <AppCard>
+          <AppSectionTitle title="Pedometer" subtitle="Live step counter" />
+          <PedometerComponent />
+        </AppCard>
+      </ScrollView>
+    </AppScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  content: {
     gap: 16,
+    paddingBottom: 24,
+  },
+  hero: {
+    marginTop: 8,
+    gap: 12,
+  },
+  kicker: {
+    fontSize: 12,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    letterSpacing: 1.4,
   },
   title: {
-    fontSize: 32,
-    fontWeight: '700',
+    fontSize: 34,
+    fontWeight: '800',
+    lineHeight: 38,
   },
   text: {
     fontSize: 16,
+    lineHeight: 24,
+  },
+  actions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+    marginTop: 8,
+  },
+  primaryButton: {
+    flexGrow: 1,
+  },
+  secondaryButton: {
+    flexGrow: 1,
+  },
+  statsRow: {
+    flexDirection: 'row',
+    gap: 12,
   },
 });

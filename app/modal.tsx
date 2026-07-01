@@ -1,29 +1,38 @@
-import { Link } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import { StyleSheet, Text } from 'react-native';
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { AppButton, AppCard, AppScreen, useAppTheme } from '@/components/ui/app-shell';
 
 export default function ModalScreen() {
+  const colors = useAppTheme();
+  const router = useRouter();
+
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">This is a modal</ThemedText>
-      <Link href="/" dismissTo style={styles.link}>
-        <ThemedText type="link">Go to home screen</ThemedText>
-      </Link>
-    </ThemedView>
+    <AppScreen>
+      <AppCard style={styles.container}>
+        <Text style={[styles.kicker, { color: colors.primary }]}>Modal</Text>
+        <Text style={[styles.title, { color: colors.text }]}>This is a modal</Text>
+        <AppButton title="Go to home screen" onPress={() => router.replace('/')} />
+      </AppCard>
+    </AppScreen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    gap: 12,
   },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
+  kicker: {
+    fontSize: 12,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    letterSpacing: 1.4,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '800',
+    lineHeight: 34,
   },
 });

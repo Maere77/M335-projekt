@@ -1,56 +1,51 @@
-import {useState} from 'react';
-import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Barometer} from 'expo-sensors';
+import { useEffect, useState } from 'react';
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Barometer } from 'expo-sensors';
+
+import { useAppTheme } from '@/components/ui/app-shell';
 
 export default function Height() {
-    const [{pressure, relativeAltitude, timestamp}, setData] = useState({pressure: 0, relativeAltitude: 0});
-    const [subscription, setSubscription] = useState(null);
+    const colors = useAppTheme();
+    const [{ pressure, relativeAltitude }, setData] = useState({ pressure: 0, relativeAltitude: 0 });
 
-    const toggleListener = () => {
-        subscription ? unsubscribe() : subscribe();
-    };
-
-    const subscribe = () => {
-        setSubscription(Barometer.addListener(setData));
-    };
-
-    const unsubscribe = () => {
-        subscription && subscription.remove();
-        setSubscription(null);
-    };
-
+    useEffect(() => {
+        const subscription = Barometer.addListener(setData);
+        return () => subscription.remove();
+    }, []);
 
     return (
-        <View style={{paddingTop: 100, color: "white"}}>
-            <Text style={{color: "white"}}>Barometer: Listener {subscription ? 'ACTIVE' : 'INACTIVE'}</Text>
-            <Text style={{color: "white"}}>Pressure: {pressure} hPa</Text>
-            <Text style={{color: "white"}}>
-                Relative Altitude:{' '}
-                {Platform.OS === 'ios' ? `${relativeAltitude} m` : `Only available on iOS`}
+        <View style={styles.container}>
+            <Text style={[styles.kicker, { color: colors.primary }]}>Barometer</Text>
+            <Text style={[styles.title, { color: colors.text }]}>Height sensor</Text>
+            <Text style={[styles.value, { color: colors.text }]}>Pressure: {pressure} hPa</Text>
+            <Text style={[styles.label, { color: colors.muted }]}>
+                Relative altitude:{' '}
+                {Platform.OS === 'ios' ? `${relativeAltitude} m` : 'Only available on iOS'}
             </Text>
-            <Text style={{color: "white"}}>Timestamp: {timestamp}</Text>
-            <TouchableOpacity onPress={toggleListener} style={{backgroundColor: "green", padding: 10, marginTop: 10}}>
-                <Text style={{color: "white"}}>Toggle listener</Text>
-            </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    titleContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
+    container: {
+        gap: 12,
     },
-    stepContainer: {
-        gap: 8,
-        marginBottom: 8,
+    kicker: {
+        fontSize: 12,
+        fontWeight: '800',
+        textTransform: 'uppercase',
+        letterSpacing: 1.4,
     },
-    reactLogo: {
-        height: 178,
-        width: 290,
-        bottom: 0,
-        left: 0,
-        position: 'absolute',
+    title: {
+        fontSize: 24,
+        fontWeight: '800',
+    },
+    value: {
+        fontSize: 16,
+        lineHeight: 24,
+    },
+    label: {
+        fontSize: 14,
+        lineHeight: 22,
     },
 })

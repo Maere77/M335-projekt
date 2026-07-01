@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Pedometer } from "expo-sensors";
 
+import { useAppTheme } from '@/components/ui/app-shell';
+
 export default function PedometerComponent() {
+    const colors = useAppTheme();
     const [isAvailable, setIsAvailable] = useState(false);
     const [steps, setSteps] = useState(0);
 
@@ -10,9 +13,13 @@ export default function PedometerComponent() {
         let subscription: Pedometer.Subscription | null = null;
 
         const start = async () => {
+            //AI damit es auch für Android funktioniert
             const available = await Pedometer.isAvailableAsync();
             setIsAvailable(available);
+            console.log("Available:", available);
 
+            const permission = await Pedometer.requestPermissionsAsync();
+            console.log("Permission:", permission);
             if (!available) return;
 
             // Schritte seit Start der Komponente
@@ -30,11 +37,11 @@ export default function PedometerComponent() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Schrittzähler</Text>
+            <Text style={[styles.title, { color: colors.muted }]}>Schrittzähler</Text>
 
-            <Text style={styles.steps}>{steps}</Text>
+            <Text style={[styles.steps, { color: colors.text }]}>{steps.toLocaleString()}</Text>
 
-            <Text style={styles.label}>
+            <Text style={[styles.label, { color: colors.muted }]}>
                 {isAvailable
                     ? "Schritte seit App-Start"
                     : "Pedometer nicht verfügbar"}
@@ -45,21 +52,22 @@ export default function PedometerComponent() {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
-        alignItems: "center",
-        justifyContent: "center",
+        gap: 10,
+        alignItems: "flex-start",
     },
     title: {
-        fontSize: 24,
-        fontWeight: "bold",
+        fontSize: 16,
+        fontWeight: "700",
+        textTransform: "uppercase",
+        letterSpacing: 1.2,
     },
     steps: {
-        fontSize: 56,
-        fontWeight: "bold",
-        marginVertical: 16,
+        fontSize: 52,
+        lineHeight: 56,
+        fontWeight: "800",
     },
     label: {
         fontSize: 16,
-        color: "#666",
+        lineHeight: 24,
     },
 });

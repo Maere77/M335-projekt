@@ -1,30 +1,64 @@
-import {StyleSheet, Text, View} from 'react-native';
-import {useState} from 'react';
-import Height from "@/app/service/height";
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { useRouter } from 'expo-router';
+
+import Height from '@/app/service/height';
+import { AppButton, AppCard, AppScreen, AppStat, useAppTheme } from '@/components/ui/app-shell';
 
 export default function StartScreen() {
-  const [steps, setSteps] = useState(0);
-  const [maxHeight, setMaxHeight] = useState(0);
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>START</Text>
-      <Text>{steps}</Text>
-      <Text>{maxHeight}</Text>
-      <Height></Height>
-    </View>
-  );
+    const colors = useAppTheme();
+    const steps = 0;
+    const maxHeight = 0;
+    const router = useRouter();
+    return (
+        <AppScreen>
+            <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+                <AppCard style={styles.hero}>
+                    <Text style={[styles.kicker, { color: colors.primary }]}>Kickoff</Text>
+                    <Text style={[styles.title, { color: colors.text }]}>START</Text>
+                    <Text style={[styles.text, { color: colors.muted }]}>You Think your at the PEAK?</Text>
+                    <AppButton title="Start" onPress={() => router.push('/maxHeight')} />
+                </AppCard>
+
+                <View style={styles.statsRow}>
+                    <AppStat label="Steps" value={String(steps)} />
+                    <AppStat label="Max height" value={String(maxHeight)} />
+                </View>
+
+                <AppCard>
+                    <Height />
+                </AppCard>
+            </ScrollView>
+        </AppScreen>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: '700',
-    letterSpacing: 2,
-  },
+    content: {
+        gap: 16,
+        paddingBottom: 24,
+    },
+    hero: {
+        marginTop: 8,
+    },
+    kicker: {
+        fontSize: 12,
+        fontWeight: '800',
+        textTransform: 'uppercase',
+        letterSpacing: 1.4,
+    },
+    title: {
+        fontSize: 36,
+        fontWeight: '800',
+        letterSpacing: 1,
+        lineHeight: 40,
+    },
+    text: {
+        fontSize: 16,
+        lineHeight: 24,
+    },
+    statsRow: {
+        flexDirection: 'row',
+        gap: 12,
+    },
 });
