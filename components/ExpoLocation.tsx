@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {Platform} from "react-native";
 import * as Location from "expo-location";
 
-import {useAppTheme} from "@/components/ui/app-shell";
+import {AppStat} from "@/components/ui/app-shell";
 
 const MOVEMENT_TOLERANCE_M = 3;
 
@@ -30,8 +30,6 @@ function getDistance(
 }
 
 export default function ExpoLocation() {
-    const colors = useAppTheme();
-
     const [distance, setDistance] = useState(0);
 
     useEffect(() => {
@@ -64,19 +62,6 @@ export default function ExpoLocation() {
     }, []);
 
     return (
-        <View style={styles.container}>
-            <Text style={[styles.label, {color: colors.muted}]}>
-                Distance travelled
-            </Text>
-            <Text style={[styles.value, {color: colors.text}]}>
-                {String((distance / 1000).toFixed(2)) + " km"}
-            </Text>
-        </View>
+        <AppStat label="Distance travelled" value={String((distance / 1000).toFixed(2)) + " km"}/>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {gap: 8},
-    label: {fontSize: 14, lineHeight: 20, fontWeight: "600", textTransform: "uppercase", letterSpacing: 0.8},
-    value: {fontSize: 28, fontWeight: "800", lineHeight: 32},
-});

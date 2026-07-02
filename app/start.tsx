@@ -1,10 +1,9 @@
-import {ScrollView, StyleSheet, Text} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import Height from '@/components/Height';
 import {AppCard, AppScreen, useAppTheme} from '@/components/ui/app-shell';
 import PedometerComponent from "@/components/PedometerComponent";
 import ExpoLocation from "@/components/ExpoLocation";
-import StationaryTime from "@/components/StationaryTime";
 import ExpoAccelerometer from "@/components/ExpoAccelerometer";
 
 export default function StartScreen() {
@@ -17,12 +16,12 @@ export default function StartScreen() {
                     <Text style={[styles.title, { color: colors.text }]}>START</Text>
                 </AppCard>
 
-                <AppCard>
-                    <PedometerComponent />
-                </AppCard>
-                <AppCard>
-                    <ExpoLocation />
-                </AppCard>
+                <View style={styles.container}>
+                    <View style={styles.statsRow}>
+                        <PedometerComponent />
+                        <ExpoLocation />
+                    </View>
+                </View>
                 <AppCard>
                     <Height />
                 </AppCard>
@@ -35,6 +34,13 @@ export default function StartScreen() {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        gap: 12,
+    },
+    statsRow: {
+        flexDirection: 'row',
+        gap: 12,
+    },
     content: {
         gap: 16,
         paddingBottom: 24,
