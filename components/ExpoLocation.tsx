@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {Platform} from "react-native";
 import * as Location from "expo-location";
 
 import {AppStat} from "@/components/ui/app-shell";

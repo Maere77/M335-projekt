@@ -59,9 +59,7 @@ export default function StartScreen() {
                 <AppCard>
                     <Height/>
                 </AppCard>
-                <AppCard>
-                    <ExpoAccelerometer/>
-                </AppCard>
+                <ExpoAccelerometer/>
             </ScrollView>
         </AppScreen>
     );
