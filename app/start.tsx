@@ -25,6 +25,7 @@ export default function StartScreen() {
 
     const {
         gameId,
+        setGameStarted
     } = useGameData();
 
 
@@ -64,6 +65,7 @@ export default function StartScreen() {
 
             if (secondsLeft <= 0 && !hasNavigated.current) {
                 hasNavigated.current = true;
+                setGameStarted(false)
                 router.push("/finish");
             }
         };
@@ -72,7 +74,7 @@ export default function StartScreen() {
         const interval = setInterval(updateRemaining, 1000);
 
         return () => clearInterval(interval);
-    }, [gameEndMs]);
+    }, [gameEndMs, setGameStarted]);
 
     return (
         <AppScreen>

@@ -63,13 +63,16 @@ export default function ExpoLocation() {
     }, []);
 
 
-    const {setGameData} = useGameData();
+    const {setGameData, gameStarted} = useGameData();
 
     useEffect(() => {
-        setGameData(prev => ({
-            ...prev,
-            distance: distance,
-        }));
+        if (gameStarted){
+            setGameData(prev => ({
+                ...prev,
+                distance: distance,
+            }));
+        }
+
     }, [distance, setGameData]);
 
     return (

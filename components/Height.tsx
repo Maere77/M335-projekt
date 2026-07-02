@@ -63,21 +63,25 @@ export default function Height() {
 
 
 
-    const {setGameData} = useGameData();
+    const {setGameData, gameStarted} = useGameData();
 
     useEffect(() => {
-        setGameData(prev => ({
-            ...prev,
-            elevatedGain: elevationGain,
-        }));
-    }, [elevationGain, setGameData]);
+        if (gameStarted) {
+            setGameData(prev => ({
+                ...prev,
+                elevatedGain: elevationGain,
+            }));
+        }
+    }, [elevationGain, setGameData, gameStarted]);
 
     useEffect(() => {
-        setGameData(prev => ({
-            ...prev,
-            highestPoint: highestPoint || 0,
-        }));
-    }, [highestPoint, setGameData]);
+        if (gameStarted) {
+            setGameData(prev => ({
+                ...prev,
+                highestPoint: highestPoint || 0,
+            }));
+        }
+    }, [highestPoint, setGameData, gameStarted]);
 
     return (
         <View style={styles.container}>

@@ -48,14 +48,17 @@ export default function ExpoAccelerometer() {
     }, [x, y, z]);
 
 
-    const {setGameData} = useGameData();
+    const {setGameData, gameStarted} = useGameData();
 
     useEffect(() => {
-        setGameData(prev => ({
-            ...prev,
-            nothingDone: nothingDoneThreeSeconds,
-        }));
-    }, [nothingDoneThreeSeconds, setGameData]);
+        if (gameStarted){
+            setGameData(prev => ({
+                ...prev,
+                nothingDone: nothingDoneThreeSeconds,
+            }));  
+        }
+
+    }, [gameStarted, nothingDoneThreeSeconds, setGameData]);
 
     return (
         <AppStat label="Nothing Done" value={nothingDoneThreeSeconds + " Seconds"}/>

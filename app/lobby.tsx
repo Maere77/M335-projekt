@@ -16,6 +16,7 @@ export default function LobbyScreen() {
         gameData,
         setGameData,
         gameId,
+        setGameStarted
     } = useGameData();
 
     const [users, setUsers] = useState<UserData[]>([]);
@@ -49,6 +50,7 @@ export default function LobbyScreen() {
                             gameId,
                             new Date(Date.now() + gameTime * 60 * 1000)
                         );
+                        setGameStarted(true)
                         router.push("/start");
                     }
                 }

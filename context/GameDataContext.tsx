@@ -6,6 +6,8 @@ type GameDataContextType = {
     setGameData: React.Dispatch<React.SetStateAction<UserData>>;
     gameId: string;
     setGameId: React.Dispatch<React.SetStateAction<string>>;
+    gameStarted: boolean;
+    setGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const GameDataContext = createContext<GameDataContextType | null>(null);
@@ -16,10 +18,13 @@ export function GameDataProvider({children}: Readonly<{
     const [gameId, setGameId] = useState("");
 
     const [gameData, setGameData] = useState<UserData>({
+        distance: 0, elevatedGain: 0, highestPoint: 0, nothingDone: 0,
         userid: "",
         username: "anonymous-user",
-        steps: 0,
+        steps: 0
     });
+
+    const [gameStarted, setGameStarted] = useState(false);
 
     useEffect(() => {
         if (!gameId || !gameData.userid) return;
@@ -34,6 +39,8 @@ export function GameDataProvider({children}: Readonly<{
                 setGameData,
                 gameId,
                 setGameId,
+                gameStarted,
+                setGameStarted,
             }}
         >
             {children}

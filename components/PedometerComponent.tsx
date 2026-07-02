@@ -7,7 +7,7 @@ import {useGameData} from "@/context/GameDataContext";
 
 export default function PedometerComponent() {
 
-    const {gameData, setGameData} = useGameData();
+    const {gameData, setGameData, gameStarted} = useGameData();
 
     useEffect(() => {
         let subscription: Pedometer.Subscription | null = null;
@@ -16,10 +16,13 @@ export default function PedometerComponent() {
             const permission = await Pedometer.requestPermissionsAsync();
 
             subscription = Pedometer.watchStepCount(result => {
-                setGameData(prev => ({
-                    ...prev,
-                    steps: result.steps,
-                }));
+                if (gameStarted){
+                    setGameData(prev => ({
+                        ...prev,
+                        steps: result.steps,
+                    }));
+                }
+
             });
         };
 
