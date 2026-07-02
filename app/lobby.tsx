@@ -1,9 +1,9 @@
-import { useRouter } from 'expo-router';
-import { AppButton, useAppTheme } from '@/components/ui/app-shell';
-import { useGameData } from "@/context/GameDataContext";
-import { useEffect, useState } from "react";
-import {createGame, getUsers, UserData} from "@/service/gameDataService";
-import {View, Text, FlatList, StyleSheet, TextInput} from "react-native";
+import {useRouter} from 'expo-router';
+import {AppButton, useAppTheme} from '@/components/ui/app-shell';
+import {useGameData} from "@/context/GameDataContext";
+import {useEffect, useState} from "react";
+import {getUsers, UserData} from "@/service/gameDataService";
+import {FlatList, StyleSheet, Text, TextInput, View} from "react-native";
 import * as Crypto from 'expo-crypto';
 
 export default function LobbyScreen() {
@@ -14,15 +14,11 @@ export default function LobbyScreen() {
         gameData,
         setGameData,
         gameId,
-        setGameId,
     } = useGameData();
 
-    // State für die geladenen User
     const [users, setUsers] = useState<UserData[]>([]);
-
     const [username, setUsername] = useState("anonymous")
 
-    // 2. User laden, sobald eine gameId existiert
     useEffect(() => {
         if (!gameId) return;
 
@@ -45,7 +41,6 @@ export default function LobbyScreen() {
         return () => clearInterval(interval);
     }, [gameId]);
 
-
     useEffect(() => {
         if (!gameId) return;
 
@@ -57,9 +52,7 @@ export default function LobbyScreen() {
     return (
         <View style={styles.container}>
             <Text style={[styles.title, { color: colors.text }]}>Spieler in der Lobby:</Text>
-            <Text>{gameId}</Text>
-
-            {/* Die Liste aller User */}
+            <Text>Game-ID: <strong>{gameId}</strong></Text>
             <FlatList
                 data={users}
                 keyExtractor={(item) => item.userid}
@@ -73,15 +66,13 @@ export default function LobbyScreen() {
                     <Text style={{ color: colors.text, opacity: 0.5 }}>Warte auf Spieler...</Text>
                 }
             />
-
             <TextInput
                 style={[styles.input, { color: colors.text }]}
                 value={username}
                 onChangeText={(text) => setUsername(text)}
                 placeholder="Username"
-                placeholderTextColor={colors.text + '80'} // Leicht transparent
+                placeholderTextColor={colors.text + '80'}
             />
-
             <AppButton title="Start" onPress={() => router.push('/start')}/>
         </View>
     );

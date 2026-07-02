@@ -11,9 +11,6 @@ export default function HomeScreen() {
     const router = useRouter();
 
     const {
-        gameData,
-        setGameData,
-        gameId,
         setGameId,
     } = useGameData();
 
@@ -24,8 +21,6 @@ export default function HomeScreen() {
         setGameId(gameIdInput);
         router.push('/lobby');
     }
-
-
 
     return (
         <AppScreen>
@@ -40,15 +35,13 @@ export default function HomeScreen() {
                             onPress={() => triggerAdvancedNotification('Game Starting', '10 Seconds')}
                             style={styles.secondaryButton}
                         />
-
                         <TextInput
                             style={[styles.input, { color: colors.text }]}
                             value={gameIdInput}
                             onChangeText={(text) => setGameIdInput(text)}
                             placeholder="Game ID"
-                            placeholderTextColor={colors.text + '80'} // Leicht transparent
+                            placeholderTextColor={colors.text + '80'}
                         />
-
                         <AppButton title="Host Game" onPress={() => joinGame()} style={styles.primaryButton}/>
                         <AppButton title="Join Game" onPress={() => joinGame()} style={styles.primaryButton}/>
                     </View>
