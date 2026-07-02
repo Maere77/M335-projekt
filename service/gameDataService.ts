@@ -72,7 +72,7 @@ export async function deleteGame(gameId: string): Promise<void> {
 /**
  * Setzt startedAt auf 10 Sekunden in der Zukunft.
  */
-export async function setGameStarted(
+export async function setGameStartIn10s(
     gameId: string
 ): Promise<void> {
     const startTime = new Date(Date.now() + 10_000);

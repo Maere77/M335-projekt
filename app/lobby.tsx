@@ -2,7 +2,7 @@ import {useRouter} from 'expo-router';
 import {AppButton, useAppTheme} from '@/components/ui/app-shell';
 import {useGameData} from "@/context/GameDataContext";
 import {useEffect, useRef, useState} from "react";
-import {getGameWithUsers, setGameEnd, setGameStarted, UserData} from "@/service/gameDataService";
+import {getGameWithUsers, setGameEnd, setGameStarted, setGameStartIn10s, UserData} from "@/service/gameDataService";
 import {FlatList, StyleSheet, Text, TextInput, View} from "react-native";
 import * as Crypto from 'expo-crypto';
 import {triggerAdvancedNotification} from "@/service/PushService";
@@ -16,6 +16,7 @@ export default function LobbyScreen() {
         gameData,
         setGameData,
         gameId,
+        setGameId,
         setGameStarted
     } = useGameData();
 
@@ -66,7 +67,7 @@ export default function LobbyScreen() {
         }, 3000);
 
         return () => clearInterval(interval);
-    }, [gameId, gameTime, router]);
+    }, [gameId, gameTime, router, setGameStarted]);
 
     useEffect(() => {
         if (!gameId) return;
@@ -79,7 +80,7 @@ export default function LobbyScreen() {
 
     const startGame = () => {
         setActive(true)
-        setGameStarted(gameId);
+        setGameStartIn10s(gameId)
     }
 
     return (
