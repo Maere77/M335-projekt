@@ -22,3 +22,11 @@ Ohne login nur mit Name, man kann eine "Lobby" Hosten oder eine joinen mit der L
 - Firebase Datenbank
 Daten werden abgespeichert, Spieler daten so wie Gamedaten </br>
 Testen mit ausprobieren :D
+
+  
+
+## AI
+- CSS generiert, genau so wie die CSS kompoenente, die ich für die App genutzt habe, wurde mit AI generiert.
+- FigmaAI verwedet
+- Spezifische Logik, z.B 
+- Berechnung der Distanz für iOS, Elevation, Highest Point für iOS weil inexistent, wurde mit AI assistiert
