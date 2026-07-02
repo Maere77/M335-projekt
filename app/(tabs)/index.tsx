@@ -45,15 +45,8 @@ export default function HomeScreen() {
         <AppScreen>
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
                 <AppCard style={styles.hero}>
-                    <Text style={[styles.title, {color: colors.text}]}>Thirty dash</Text>
-                    <Text style={[styles.text, {color: colors.muted}]}>Erklärung</Text>
+                    <Text style={[styles.title, {color: colors.text}]}>30 dash</Text>
                     <View style={styles.actions}>
-                        <AppButton
-                            title="Notify to Start Challange"
-                            variant="secondary"
-                            onPress={() => triggerAdvancedNotification('Game Starting', '10 Seconds')}
-                            style={styles.secondaryButton}
-                        />
                         <TextInput
                             style={[styles.input, { color: colors.text }]}
                             value={gameIdInput}

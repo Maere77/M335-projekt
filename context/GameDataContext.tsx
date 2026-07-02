@@ -10,11 +10,9 @@ type GameDataContextType = {
 
 const GameDataContext = createContext<GameDataContextType | null>(null);
 
-export function GameDataProvider({
-                                     children,
-                                 }: {
+export function GameDataProvider({children}: Readonly<{
     children: React.ReactNode;
-}) {
+}>) {
     const [gameId, setGameId] = useState("");
 
     const [gameData, setGameData] = useState<UserData>({
@@ -23,7 +21,6 @@ export function GameDataProvider({
         steps: 0,
     });
 
-// Erst speichern, wenn es eine gameId gibt
     useEffect(() => {
         if (!gameId || !gameData.userid) return;
 

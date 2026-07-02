@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
 import {Accelerometer} from 'expo-sensors';
 import {AppStat} from "@/components/ui/app-shell";
+import {useGameData} from "@/context/GameDataContext";
 
 export default function ExpoAccelerometer() {
     const [{ x, y, z }, setData] = useState({
@@ -45,6 +46,16 @@ export default function ExpoAccelerometer() {
             }, 2000);
         }
     }, [x, y, z]);
+
+
+    const {setGameData} = useGameData();
+
+    useEffect(() => {
+        setGameData(prev => ({
+            ...prev,
+            nothingDone: nothingDoneThreeSeconds,
+        }));
+    }, [nothingDoneThreeSeconds, setGameData]);
 
     return (
         <AppStat label="Nothing Done" value={nothingDoneThreeSeconds + " Seconds"}/>

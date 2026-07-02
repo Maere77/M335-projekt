@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import * as Location from "expo-location";
 
 import {AppStat} from "@/components/ui/app-shell";
+import {useGameData} from "@/context/GameDataContext";
 
 const MOVEMENT_TOLERANCE_M = 3;
 
@@ -60,6 +61,16 @@ export default function ExpoLocation() {
 
         return () => subscription?.remove();
     }, []);
+
+
+    const {setGameData} = useGameData();
+
+    useEffect(() => {
+        setGameData(prev => ({
+            ...prev,
+            distance: distance,
+        }));
+    }, [distance, setGameData]);
 
     return (
         <AppStat label="Distance travelled" value={String((distance / 1000).toFixed(2)) + " km"}/>

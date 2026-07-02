@@ -4,6 +4,7 @@ import {Barometer} from 'expo-sensors';
 
 import {AppStat} from '@/components/ui/app-shell';
 import {createHighTracker} from '@/service/highCalculate';
+import {useGameData} from "@/context/GameDataContext";
 
 export default function Height() {
     //Das ist das Code Beispiel, dass Markus mit Livio gemacht hat.
@@ -59,6 +60,24 @@ export default function Height() {
             return currentHighestPoint;
         });
     }, [relativeAltitude]);
+
+
+
+    const {setGameData} = useGameData();
+
+    useEffect(() => {
+        setGameData(prev => ({
+            ...prev,
+            elevatedGain: elevationGain,
+        }));
+    }, [elevationGain, setGameData]);
+
+    useEffect(() => {
+        setGameData(prev => ({
+            ...prev,
+            highestPoint: highestPoint || 0,
+        }));
+    }, [highestPoint, setGameData]);
 
     return (
         <View style={styles.container}>

@@ -8,6 +8,10 @@ export interface UserData {
     userid: string;
     username: string;
     steps: number;
+    distance: number;
+    elevatedGain: number;
+    highestPoint: number;
+    nothingDone: number;
 }
 
 export interface GameData {
