@@ -100,7 +100,6 @@ export default function LobbyScreen() {
                     <Text style={{color: colors.text, opacity: 0.5}}>Warte auf Spieler...</Text>
                 }
             />
-            <Text >{gameTime}</Text>
             <Picker
                 enabled={!active}
                 selectedValue={gameTime}
@@ -108,6 +107,7 @@ export default function LobbyScreen() {
                 style={{color: colors.text}}
                 dropdownIconColor={colors.text}
             >
+                <Picker.Item label="30 Sekunden" value={0.5}/>
                 <Picker.Item label="1 Minute" value={1}/>
                 <Picker.Item label="5 Minuten" value={5}/>
                 <Picker.Item label="15 Minuten" value={15}/>

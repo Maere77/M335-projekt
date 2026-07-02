@@ -41,7 +41,6 @@ export default function ExpoAccelerometer() {
         if (deltaX >= 0.3 || deltaY >= 0.3 || deltaZ >= 0.3) {
             if (intervalRef.current) clearInterval(intervalRef.current);
             intervalRef.current = setInterval(() => {
-                console.log(1244124124)
                 incrementLazy();
             }, 2000);
         }
