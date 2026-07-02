@@ -2,18 +2,16 @@
 
 - Der Step Counter funktioniert nur für IOS **Pedometer** </br> Testen mit laufen mit Telefon in der Hosentasche
 
-
-- Distance Travelled ist relativ ungenau GPS-Sensor </br>
+- DistanceTravelled ist relativ ungenau GPS-Sensor </br>
 Testen mit bewegung (funktionert besser wenn man unter freiem Himmel ist)
 
-
-- Elevation gain, ist auch ein wenig ungeau, da es mirko auswirken wahr nimmt, versucht zu umgehen mit einem buffer
+- ElevationGain, ist auch ein wenig ungeau, da es mirko auswirken wahr nimmt, versucht zu umgehen mit einem buffer
 Testen, mit Telfon in die höhe halten. Barometer </br>
 Für iOS ist es gegeben, für Android habe ich mit Copilot eine berechnung generiern lassen, damit man es auch nutzten kann
 
-
 - Highest Point, kann man Testen mit Telefon hoch halten oder ein wenig hoch werfen
 
+- Acceleration, kann man herausfinden, wie lange man sich fast nicht bewegt
 
 - Multi User Applikation </br>
 Ohne login nur mit Name, man kann eine "Lobby" Hosten oder eine joinen mit der Lobby ID, die Daten werden in Echtzeit synchronisiert
@@ -30,3 +28,11 @@ Testen mit ausprobieren :D
 - FigmaAI verwedet
 - Spezifische Logik, z.B 
 - Berechnung der Distanz für iOS, Elevation, Highest Point für iOS weil inexistent, wurde mit AI assistiert
+
+
+### Erweitertungen
+Natürlich hätten wir bei mehr Zeit noch viele Ideen für Erweiterungen und Verbesserungen gehabt. Z.B:
+- Schöneres und Übersichtlicheres Design
+- User mit Login (z.B. Google Login mit Firebase)
+- Trophäen nach jeder Runde vergeben, die dann im Profil gespeichert werden
+- usw.
