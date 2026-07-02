@@ -1,19 +1,27 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import Height from '@/components/Height';
-import {AppCard, AppScreen, useAppTheme} from '@/components/ui/app-shell';
+import {AppCard, AppScreen, AppStat, useAppTheme} from '@/components/ui/app-shell';
 import PedometerComponent from "@/components/PedometerComponent";
 import ExpoLocation from "@/components/ExpoLocation";
 import ExpoAccelerometer from "@/components/ExpoAccelerometer";
-import {getGameWithUsers, setGameEnd} from "@/service/gameDataService";
-import {useEffect, useRef} from "react";
+import {getGameWithUsers} from "@/service/gameDataService";
+import {useEffect, useRef, useState} from "react";
 import {router} from "expo-router";
 import {useGameData} from "@/context/GameDataContext";
+
+function formatCountdown(totalSeconds: number): string {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
 
 export default function StartScreen() {
     const colors = useAppTheme();
 
     const hasNavigated = useRef(false);
+    const [gameEndMs, setGameEndMs] = useState<number | null>(null);
+    const [remainingSeconds, setRemainingSeconds] = useState<number | null>(null);
 
     const {
         gameId,
@@ -21,27 +29,50 @@ export default function StartScreen() {
 
 
     useEffect(() => {
-        const checkGameEnd = async () => {
+        if (!gameId) return;
+
+        const syncGameEnd = async () => {
             const game = await getGameWithUsers(gameId);
 
-            const gameEndMs =
-                game?.gameEnd.seconds * 1000 +
-                game?.gameEnd.nanoseconds / 1_000_000;
-
-            const diffInSeconds = (gameEndMs - Date.now()) / 1000;
-
-            if (diffInSeconds <= 0 && !hasNavigated.current) {
-                hasNavigated.current = true;
-                router.push("/finish");
+            if (!game?.gameEnd) {
+                setGameEndMs(null);
+                return;
             }
-        }
 
-        const interval = setInterval(() => {
-            checkGameEnd();
-        }, 3000);
+            const nextGameEndMs =
+                game.gameEnd.seconds * 1000 +
+                game.gameEnd.nanoseconds / 1_000_000;
+
+            setGameEndMs(nextGameEndMs);
+        };
+
+        syncGameEnd();
+        const interval = setInterval(syncGameEnd, 3000);
 
         return () => clearInterval(interval);
     }, [gameId]);
+
+    useEffect(() => {
+        if (!gameEndMs) {
+            setRemainingSeconds(null);
+            return;
+        }
+
+        const updateRemaining = () => {
+            const secondsLeft = Math.max(0, Math.ceil((gameEndMs - Date.now()) / 1000));
+            setRemainingSeconds(secondsLeft);
+
+            if (secondsLeft <= 0 && !hasNavigated.current) {
+                hasNavigated.current = true;
+                router.push("/finish");
+            }
+        };
+
+        updateRemaining();
+        const interval = setInterval(updateRemaining, 1000);
+
+        return () => clearInterval(interval);
+    }, [gameEndMs]);
 
     return (
         <AppScreen>
@@ -49,7 +80,10 @@ export default function StartScreen() {
                 <AppCard style={styles.hero}>
                     <Text style={[styles.title, {color: colors.text}]}>START</Text>
                 </AppCard>
-
+                <AppStat
+                    label="Countdown"
+                    value={remainingSeconds !== null ? `T -${formatCountdown(remainingSeconds)}` : "T --:--"}
+                />
                 <View style={styles.container}>
                     <View style={styles.statsRow}>
                         <PedometerComponent/>
