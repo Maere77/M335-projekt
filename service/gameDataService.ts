@@ -1,13 +1,4 @@
-import {
-    collection,
-    deleteDoc,
-    doc,
-    getDoc,
-    getDocs,
-    serverTimestamp,
-    setDoc,
-    updateDoc,
-} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDoc, getDocs, setDoc, Timestamp, updateDoc,} from "firebase/firestore";
 import {db} from "./firebase";
 
 const GAMES_COLLECTION = "Games";
@@ -36,7 +27,7 @@ export interface GameData {
 export async function createGame(gameId: string): Promise<void> {
     await setDoc(doc(db, GAMES_COLLECTION, gameId), {
         gameid: gameId,
-        startedAt: serverTimestamp(),
+        startedAt: null,
     });
 }
 
@@ -69,6 +60,23 @@ export async function getGames(): Promise<GameData[]> {
  */
 export async function deleteGame(gameId: string): Promise<void> {
     await deleteDoc(doc(db, GAMES_COLLECTION, gameId));
+}
+
+
+/**
+ * Setzt startedAt auf 10 Sekunden in der Zukunft.
+ */
+export async function setGameStarted(
+    gameId: string
+): Promise<void> {
+    const startTime = new Date(Date.now() + 10_000);
+
+    await updateDoc(
+        doc(db, GAMES_COLLECTION, gameId),
+        {
+            startedAt: Timestamp.fromDate(startTime),
+        }
+    );
 }
 
 //

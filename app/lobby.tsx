@@ -1,10 +1,11 @@
 import {useRouter} from 'expo-router';
 import {AppButton, useAppTheme} from '@/components/ui/app-shell';
 import {useGameData} from "@/context/GameDataContext";
-import {useEffect, useState} from "react";
-import {getUsers, UserData} from "@/service/gameDataService";
+import {useEffect, useRef, useState} from "react";
+import {getGameWithUsers, setGameStarted, UserData} from "@/service/gameDataService";
 import {FlatList, StyleSheet, Text, TextInput, View} from "react-native";
 import * as Crypto from 'expo-crypto';
+import {triggerAdvancedNotification} from "@/service/PushService";
 
 export default function LobbyScreen() {
     const colors = useAppTheme();
@@ -18,24 +19,40 @@ export default function LobbyScreen() {
 
     const [users, setUsers] = useState<UserData[]>([]);
     const [username, setUsername] = useState("anonymous")
+    const hasNavigated = useRef(false);
 
     useEffect(() => {
         if (!gameId) return;
 
-        const fetchUsers = async () => {
+        const fetchGame = async () => {
             try {
-                const userList = await getUsers(gameId);
+                const game = await getGameWithUsers(gameId);
 
-                setUsers(userList);
+                setUsers(game?.users || []);
+
+                if (game?.startedAt) {
+                    const startedAtMs =
+                        game.startedAt.seconds * 1000 +
+                        game.startedAt.nanoseconds / 1_000_000;
+
+                    const diffInSeconds = (startedAtMs - Date.now()) / 1000;
+
+                    if (diffInSeconds >= 7 && diffInSeconds <= 10) {
+                        triggerAdvancedNotification(`Spiel startet in ${Math.ceil(diffInSeconds)} Sekunden!`, "Viel Glück!");
+                    } else if (diffInSeconds <= 0 && !hasNavigated.current) {
+                        hasNavigated.current = true;
+                        router.push("/start");
+                    }
+                }
             } catch (error) {
                 console.error("Fehler beim Laden der User:", error);
             }
         };
 
-        fetchUsers();
+        fetchGame();
 
         const interval = setInterval(() => {
-            fetchUsers();
+            fetchGame();
         }, 3000);
 
         return () => clearInterval(interval);
@@ -46,34 +63,39 @@ export default function LobbyScreen() {
 
         const uuid = gameData.userid || Crypto.randomUUID();
 
-        setGameData(prev => ({ ...prev, userid: uuid, username: username }));
+        setGameData(prev => ({...prev, userid: uuid, username: username}));
     }, [username, gameId]);
+
+
+    const startGame = () => {
+        setGameStarted(gameId);
+    }
 
     return (
         <View style={styles.container}>
-            <Text style={[styles.title, { color: colors.text }]}>Spieler in der Lobby:</Text>
-            <Text>Game-ID: <strong>{gameId}</strong></Text>
+            <Text style={[styles.title, {color: colors.text}]}>Spieler in der Lobby:</Text>
+            <Text>Game-ID: {gameId}</Text>
             <FlatList
                 data={users}
                 keyExtractor={(item) => item.userid}
                 scrollEnabled={false}
-                renderItem={({ item }) => (
+                renderItem={({item}) => (
                     <View style={styles.userItem}>
-                        <Text style={{ color: colors.text }}>{item.username}</Text>
+                        <Text style={{color: colors.text}}>{item.username}</Text>
                     </View>
                 )}
                 ListEmptyComponent={
-                    <Text style={{ color: colors.text, opacity: 0.5 }}>Warte auf Spieler...</Text>
+                    <Text style={{color: colors.text, opacity: 0.5}}>Warte auf Spieler...</Text>
                 }
             />
             <TextInput
-                style={[styles.input, { color: colors.text }]}
+                style={[styles.input, {color: colors.text}]}
                 value={username}
                 onChangeText={(text) => setUsername(text)}
                 placeholder="Username"
                 placeholderTextColor={colors.text + '80'}
             />
-            <AppButton title="Start" onPress={() => router.push('/start')}/>
+            <AppButton title="Start" onPress={() => startGame()}/>
         </View>
     );
 }
