@@ -63,7 +63,7 @@ export default function LobbyScreen() {
         }, 3000);
 
         return () => clearInterval(interval);
-    }, [gameId]);
+    }, [gameId, gameTime, router]);
 
     useEffect(() => {
         if (!gameId) return;
@@ -71,7 +71,7 @@ export default function LobbyScreen() {
         const uuid = gameData.userid || Crypto.randomUUID();
 
         setGameData(prev => ({...prev, userid: uuid, username: username}));
-    }, [username, gameId]);
+    }, [username, gameId, gameData.userid, setGameData]);
 
 
     const startGame = () => {
@@ -95,13 +95,14 @@ export default function LobbyScreen() {
                     <Text style={{color: colors.text, opacity: 0.5}}>Warte auf Spieler...</Text>
                 }
             />
-
+            <Text >{gameTime}</Text>
             <Picker
                 selectedValue={gameTime}
                 onValueChange={(value) => setGameTime(value)}
                 style={{color: colors.text}}
                 dropdownIconColor={colors.text}
             >
+                <Picker.Item label="1 Minute" value={1}/>
                 <Picker.Item label="5 Minuten" value={5}/>
                 <Picker.Item label="15 Minuten" value={15}/>
                 <Picker.Item label="30 Minuten" value={30}/>
