@@ -42,7 +42,7 @@ export default function Height() {
             : pressureBasedRelativeAltitude;
 
     useEffect(() => {
-        const { elevationGain: nextElevationGain } = highTracker.update(relativeAltitude);
+        const {elevationGain: nextElevationGain} = highTracker.update(relativeAltitude);
         setElevationGain(nextElevationGain);
     }, [highTracker, relativeAltitude]);
 
@@ -62,11 +62,9 @@ export default function Height() {
 
     return (
         <View style={styles.container}>
-            <View>
-                <View style={styles.statsRow}>
-                    <AppStat label="Elevatio Gain" value={String(elevationGain?.toFixed(1) + " m")} />
-                    <AppStat label="Mighest Point" value={String(highestPoint?.toFixed(2) + " m")} />
-                </View>
+            <View style={styles.statsRow}>
+                <AppStat label="Elevatio Gain" value={String(elevationGain?.toFixed(1) + " m")}/>
+                <AppStat label="Mighest Point" value={String(highestPoint?.toFixed(2) + " m")}/>
             </View>
         </View>
     );
