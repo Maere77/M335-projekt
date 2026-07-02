@@ -19,3 +19,10 @@ Ohne login nur mit Name, man kann eine "Lobby" Hosten oder eine joinen mit der L
 - Firebase Datenbank
 Daten werden abgespeichert, Spieler daten so wie Gamedaten </br>
 Testen mit ausprobieren :D
+
+### Erweitertungen
+Natürlich hätten wir bei mehr Zeit noch viele Ideen für Erweiterungen und Verbesserungen gehabt. Z.B:
+- Schöneres und Übersichtlicheres Design
+- User mit Login (z.B. Google Login mit Firebase)
+- Trophäen nach jeder Runde vergeben, die dann im Profil gespeichert werden
+- usw.
