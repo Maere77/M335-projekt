@@ -9,7 +9,7 @@ export default function ExpoAccelerometer() {
         y: 0,
         z: 0,
     });
-    const [subscription, setSubscription] = useState(null);
+    const [subscription, setSubscription] = useState<ReturnType<typeof Accelerometer.addListener> | null>(null);
     const [nothingDoneThreeSeconds, setNothingDoneThreeSeconds] = useState(0);
     const lastCheckRef = useRef({ x: 0, y: 0, z: 0 });
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);

@@ -86,8 +86,8 @@ export default function Height() {
     return (
         <View style={styles.container}>
             <View style={styles.statsRow}>
-                <AppStat label="Elevatio Gain" value={String(elevationGain?.toFixed(1) + " m")}/>
-                <AppStat label="Mighest Point" value={String(highestPoint?.toFixed(2) + " m")}/>
+                <AppStat label="Elevation Gain" value={String(elevationGain?.toFixed(1) + " m")}/>
+                <AppStat label="Highest Point" value={String(highestPoint?.toFixed(2) + " m")}/>
             </View>
         </View>
     );
@@ -95,6 +95,10 @@ export default function Height() {
 
 const styles = StyleSheet.create({
     container: {
+        gap: 12,
+    },
+    statsRow: {
+        flexDirection: 'row',
         gap: 12,
     },
     kicker: {
@@ -114,9 +118,5 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 14,
         lineHeight: 22,
-    },
-    statsRow: {
-        flexDirection: 'row',
-        gap: 12,
     },
 })

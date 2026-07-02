@@ -2,7 +2,7 @@ import {useRouter} from 'expo-router';
 import {AppButton, useAppTheme} from '@/components/ui/app-shell';
 import {useGameData} from "@/context/GameDataContext";
 import {useEffect, useRef, useState} from "react";
-import {getGameWithUsers, setGameEnd, setGameStarted, setGameStartIn10s, UserData} from "@/service/gameDataService";
+import {getGameWithUsers, setGameEnd, setGameStartIn10s, UserData} from "@/service/gameDataService";
 import {FlatList, StyleSheet, Text, TextInput, View} from "react-native";
 import * as Crypto from 'expo-crypto';
 import {triggerAdvancedNotification} from "@/service/PushService";
