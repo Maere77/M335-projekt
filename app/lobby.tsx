@@ -2,10 +2,11 @@ import {useRouter} from 'expo-router';
 import {AppButton, useAppTheme} from '@/components/ui/app-shell';
 import {useGameData} from "@/context/GameDataContext";
 import {useEffect, useRef, useState} from "react";
-import {getGameWithUsers, setGameStarted, UserData} from "@/service/gameDataService";
+import {getGameWithUsers, setGameEnd, setGameStarted, UserData} from "@/service/gameDataService";
 import {FlatList, StyleSheet, Text, TextInput, View} from "react-native";
 import * as Crypto from 'expo-crypto';
 import {triggerAdvancedNotification} from "@/service/PushService";
+import {Picker} from "@react-native-picker/picker";
 
 export default function LobbyScreen() {
     const colors = useAppTheme();
@@ -20,6 +21,8 @@ export default function LobbyScreen() {
     const [users, setUsers] = useState<UserData[]>([]);
     const [username, setUsername] = useState("anonymous")
     const hasNavigated = useRef(false);
+    const [gameTime, setGameTime] = useState(5);
+
 
     useEffect(() => {
         if (!gameId) return;
@@ -38,9 +41,13 @@ export default function LobbyScreen() {
                     const diffInSeconds = (startedAtMs - Date.now()) / 1000;
 
                     if (diffInSeconds >= 7 && diffInSeconds <= 10) {
-                        triggerAdvancedNotification(`Spiel startet in ${Math.ceil(diffInSeconds)} Sekunden!`, "Viel Glück!");
+                        await triggerAdvancedNotification(`Spiel startet in ${Math.ceil(diffInSeconds)} Sekunden!`, "Viel Glück!");
                     } else if (diffInSeconds <= 0 && !hasNavigated.current) {
                         hasNavigated.current = true;
+                        await setGameEnd(
+                            gameId,
+                            new Date(Date.now() + gameTime * 60 * 1000)
+                        );
                         router.push("/start");
                     }
                 }
@@ -88,6 +95,18 @@ export default function LobbyScreen() {
                     <Text style={{color: colors.text, opacity: 0.5}}>Warte auf Spieler...</Text>
                 }
             />
+
+            <Picker
+                selectedValue={gameTime}
+                onValueChange={(value) => setGameTime(value)}
+                style={{color: colors.text}}
+                dropdownIconColor={colors.text}
+            >
+                <Picker.Item label="5 Minuten" value={5}/>
+                <Picker.Item label="15 Minuten" value={15}/>
+                <Picker.Item label="30 Minuten" value={30}/>
+            </Picker>
+
             <TextInput
                 style={[styles.input, {color: colors.text}]}
                 value={username}

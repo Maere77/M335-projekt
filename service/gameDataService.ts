@@ -13,6 +13,7 @@ export interface UserData {
 export interface GameData {
     gameid: string;
     startedAt?: any;
+    gameEnd?: any;
 }
 
 //
@@ -28,6 +29,7 @@ export async function createGame(gameId: string): Promise<void> {
     await setDoc(doc(db, GAMES_COLLECTION, gameId), {
         gameid: gameId,
         startedAt: null,
+        gameEnd: null
     });
 }
 
@@ -75,6 +77,19 @@ export async function setGameStarted(
         doc(db, GAMES_COLLECTION, gameId),
         {
             startedAt: Timestamp.fromDate(startTime),
+        }
+    );
+}
+
+export async function setGameEnd(
+    gameId: string,
+    endGame: Date
+): Promise<void> {
+
+    await updateDoc(
+        doc(db, GAMES_COLLECTION, gameId),
+        {
+            gameEnd: Timestamp.fromDate(endGame),
         }
     );
 }
