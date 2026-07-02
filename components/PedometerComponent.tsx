@@ -13,7 +13,6 @@ export default function PedometerComponent() {
         let subscription: Pedometer.Subscription | null = null;
 
         const start = async () => {
-            //AI damit es auch für Android funktioniert
             const permission = await Pedometer.requestPermissionsAsync();
 
             subscription = Pedometer.watchStepCount(result => {

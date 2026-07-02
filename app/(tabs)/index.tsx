@@ -15,7 +15,7 @@ export default function HomeScreen() {
         setGameId,
     } = useGameData();
 
-    const [gameIdInput, setGameIdInput] = useState("id")
+    const [gameIdInput, setGameIdInput] = useState("");
 
 
     const joinGame = async () => {

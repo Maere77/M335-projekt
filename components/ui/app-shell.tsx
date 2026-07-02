@@ -78,6 +78,7 @@ type AppButtonProps = {
   variant?: 'primary' | 'secondary';
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  active?: boolean;
 };
 
 export function AppButton({
@@ -86,6 +87,7 @@ export function AppButton({
   variant = 'primary',
   style,
   textStyle,
+  active,
 }: AppButtonProps) {
   const colors = useTheme();
   const isPrimary = variant === 'primary';
@@ -94,6 +96,7 @@ export function AppButton({
     <Pressable
       accessibilityRole="button"
       onPress={onPress}
+      disabled={active}
       style={({ pressed }) => [
         styles.button,
         {
@@ -102,6 +105,7 @@ export function AppButton({
           opacity: pressed ? 0.88 : 1,
           transform: [{ scale: pressed ? 0.98 : 1 }],
         },
+        active && { opacity: 0.5 },
         style,
       ]}>
       <Text

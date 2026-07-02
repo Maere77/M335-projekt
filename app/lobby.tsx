@@ -22,6 +22,7 @@ export default function LobbyScreen() {
     const [username, setUsername] = useState("anonymous")
     const hasNavigated = useRef(false);
     const [gameTime, setGameTime] = useState(5);
+    const [active, setActive] = useState(false);
 
 
     useEffect(() => {
@@ -75,6 +76,7 @@ export default function LobbyScreen() {
 
 
     const startGame = () => {
+        setActive(true)
         setGameStarted(gameId);
     }
 
@@ -97,6 +99,7 @@ export default function LobbyScreen() {
             />
             <Text >{gameTime}</Text>
             <Picker
+                enabled={!active}
                 selectedValue={gameTime}
                 onValueChange={(value) => setGameTime(value)}
                 style={{color: colors.text}}
@@ -111,11 +114,12 @@ export default function LobbyScreen() {
             <TextInput
                 style={[styles.input, {color: colors.text}]}
                 value={username}
+                editable={!active}
                 onChangeText={(text) => setUsername(text)}
                 placeholder="Username"
                 placeholderTextColor={colors.text + '80'}
             />
-            <AppButton title="Start" onPress={() => startGame()}/>
+            <AppButton active={active} title="Start" onPress={() => startGame()}/>
         </View>
     );
 }

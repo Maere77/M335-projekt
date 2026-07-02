@@ -31,7 +31,6 @@ export default function ExpoAccelerometer() {
     }, []);
     //Logik mit Rinaldo + AI gemacht
     useEffect(() => {
-        console.log(x, " X", lastCheckRef.current.x,  " current x");
         const deltaX = Math.abs(x - lastCheckRef.current.x);
         const deltaY = Math.abs(y - lastCheckRef.current.y);
         const deltaZ = Math.abs(z - lastCheckRef.current.z);
@@ -39,8 +38,6 @@ export default function ExpoAccelerometer() {
         lastCheckRef.current.y = y;
         lastCheckRef.current.z = z;
         if (deltaX >= 0.3 || deltaY >= 0.3 || deltaZ >= 0.3) {
-            console.log(`Delta X: ${deltaX}, Delta Y: ${deltaY}, Delta Z: ${deltaZ}`);
-            console.log(`Current Values - X: ${x}, Y: ${y}, Z: ${z}`);
             if (intervalRef.current) clearInterval(intervalRef.current);
             intervalRef.current = setInterval(() => {
                 console.log(1244124124)
