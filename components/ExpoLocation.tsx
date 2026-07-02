@@ -5,6 +5,7 @@ import {AppStat} from "@/components/ui/app-shell";
 
 const MOVEMENT_TOLERANCE_M = 3;
 
+// Sinus sätzte kenne ich nicht, desewgen Logik generiert
 function getDistance(
     a: { latitude: number; longitude: number },
     b: { latitude: number; longitude: number }

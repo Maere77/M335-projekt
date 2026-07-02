@@ -29,7 +29,7 @@ export default function ExpoAccelerometer() {
         _subscribe();
         return () => _unsubscribe();
     }, []);
-
+    //Logik mit Rinaldo + AI gemacht
     useEffect(() => {
         console.log(x, " X", lastCheckRef.current.x,  " current x");
         const deltaX = Math.abs(x - lastCheckRef.current.x);
